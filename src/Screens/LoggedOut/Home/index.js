@@ -3,27 +3,28 @@ import { Text, TouchableOpacity, View } from 'react-native';
 
 import SVGImg from '../../../assets/toDo.svg';
 import styles from './Styling';
+import sharedStyling from '../SharedStyling';
 
 const Home = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.svgWrapper}>
-        <SVGImg width={300} height={300} style={styles.title} />
+      <View style={{ ...sharedStyling.svgWrapper, ...styles.homeSVGWrapper }}>
+        <SVGImg width={300} height={300} />
       </View>
-      <Text style={styles.title}>Daily challenge tracker</Text>
-      <Text style={styles.subtitle}>
+      <Text style={sharedStyling.title}>Daily challenge tracker</Text>
+      <Text style={sharedStyling.subtitle}>
         Set yourself a challenge to do an activity once a day. Track and log
         your progress using this app.
       </Text>
       <TouchableOpacity
-        style={styles.loginButton}
-        onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.loginButtonText}>Login</Text>
+        style={sharedStyling.primaryButton}
+        onPress={() => navigation.navigate('Log in')}>
+        <Text style={sharedStyling.primaryButtonText}>Login</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={styles.signupButton}
-        onPress={() => navigation.navigate('Signup')}>
-        <Text style={styles.signupButtonText}>Create Account</Text>
+        style={sharedStyling.secondaryButton}
+        onPress={() => navigation.navigate('Sign up')}>
+        <Text style={sharedStyling.secondaryButtonText}>Create Account</Text>
       </TouchableOpacity>
     </View>
   );
