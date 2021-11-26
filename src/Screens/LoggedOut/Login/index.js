@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 
 import styles from './Styling';
 import sharedStyling from '../SharedStyling';
+import { handleLogin } from '../../../api/auth0';
 
 const Login = ({ navigation }) => {
   const [email, onChangeEmail] = useState('');
@@ -31,7 +32,7 @@ const Login = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={sharedStyling.primaryButton}
-        onPress={() => console.log('Login: Get log in')}>
+        onPress={handleLogin}>
         <Text style={sharedStyling.primaryButtonText}>Get Login</Text>
       </TouchableOpacity>
       <TouchableOpacity

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import CheckBox from '@react-native-community/checkbox';
 
 import {
+  Alert,
   View,
   Text,
   TextInput,
@@ -10,15 +10,28 @@ import {
 } from 'react-native';
 
 import sharedStyling from '../SharedStyling';
-import { primaryColor } from '../../../stylingVariables';
-import styles from './Styling';
+import { handleSignup } from '../../../api/auth0';
 
 const Signup = ({ navigation }) => {
+  const [username, onChangeUsername] = useState('');
   const [firstName, onChangeFirstName] = useState('');
   const [lastName, onChangeLastName] = useState('');
   const [email, onChangeEmail] = useState('');
   const [password, onChangePassword] = useState('');
-  const [isSelected, setSelection] = useState(false);
+
+  const handleSubmit = () => {
+    if (!email || !password || !firstName || !lastName || !username) {
+      Alert.alert('Please make sure all fields have been completed.');
+    } else {
+      handleSignup({
+        email,
+        password,
+        firstName,
+        lastName,
+        username,
+      });
+    }
+  };
 
   return (
     <ScrollView>
@@ -29,6 +42,12 @@ const Signup = ({ navigation }) => {
         <Text style={sharedStyling.subtitle}>
           Enter your name, email address and password to join.
         </Text>
+        <TextInput
+          style={sharedStyling.input}
+          onChangeText={onChangeUsername}
+          value={username}
+          placeholder="User name"
+        />
         <TextInput
           style={sharedStyling.input}
           onChangeText={onChangeFirstName}
@@ -46,12 +65,14 @@ const Signup = ({ navigation }) => {
           onChangeText={onChangeEmail}
           value={email}
           placeholder="Email"
+          autoCapitalize="none"
         />
         <TextInput
           style={sharedStyling.input}
           onChangeText={onChangePassword}
           value={password}
           placeholder="Password"
+          secureTextEntry={true}
         />
         <Text style={sharedStyling.text}>
           By signing up, you agree for us store your email so you can use to
@@ -59,7 +80,7 @@ const Signup = ({ navigation }) => {
         </Text>
         <TouchableOpacity
           style={sharedStyling.primaryButton}
-          onPress={() => console.log('Signup: Get started')}>
+          onPress={handleSubmit}>
           <Text style={sharedStyling.primaryButtonText}>Get started</Text>
         </TouchableOpacity>
         <TouchableOpacity
