@@ -12,10 +12,14 @@ export const handleLogin = () =>
     .authorize({
       scope: 'openid email',
     })
-    .then(() => RootNavigation.navigate('LoggedIn'))
+    .then(user => {
+      console.log('USER: ', user);
+      return user;
+    })
     .catch(error => console.log('error: ', error));
 
-export const handleLogout = () => auth0.webAuth.clearSession();
+export const handleLogout = () =>
+  auth0.webAuth.clearSession({}).catch(error => console.log('error: ', error));
 
 export const handleSignup = ({
   email,
@@ -34,5 +38,5 @@ export const handleSignup = ({
       name: `${firstName} ${lastName}`,
       connection: 'Username-Password-Authentication',
     })
-    .then(() => RootNavigation.navigate('LoggedIn'))
+    .then(user => console.log('USER: ', user))
     .catch(error => console.log('error: ', error));

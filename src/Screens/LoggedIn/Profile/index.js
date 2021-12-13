@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 
-import * as RootNavigation from '../../../helpers/RootNavigation';
+import AuthContext from '../../../helpers/AuthContext';
 
 const Profile = ({ navigation }) => {
+  const { signOut } = useContext(AuthContext);
   return (
     <ScrollView>
       <View>
@@ -23,8 +24,7 @@ const Profile = ({ navigation }) => {
         <Text>PROFILE</Text>
         <Text>PROFILE</Text>
         <Text>PROFILE</Text>
-        <TouchableOpacity
-          onPress={() => RootNavigation.navigate('LoggedOutHome')}>
+        <TouchableOpacity onPress={() => signOut()}>
           <Text>Log out</Text>
         </TouchableOpacity>
       </View>

@@ -29,7 +29,9 @@ const Signup = ({ navigation }) => {
         firstName,
         lastName,
         username,
-      });
+      }).then(() =>
+        Alert.alert('Please check your email to verify your account.'),
+      );
     }
   };
 

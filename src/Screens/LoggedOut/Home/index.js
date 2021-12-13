@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
 import SVGImg from '../../../assets/toDo.svg';
 import styles from './Styling';
 import sharedStyling from '../SharedStyling';
+import AuthContext from '../../../helpers/AuthContext';
 
 const Home = ({ navigation }) => {
+  const { signIn } = useContext(AuthContext);
+
   return (
     <View style={styles.container}>
       <View style={{ ...sharedStyling.svgWrapper, ...styles.homeSVGWrapper }}>
@@ -18,7 +21,7 @@ const Home = ({ navigation }) => {
       </Text>
       <TouchableOpacity
         style={sharedStyling.primaryButton}
-        onPress={() => navigation.navigate('Log in')}>
+        onPress={() => signIn()}>
         <Text style={sharedStyling.primaryButtonText}>Login</Text>
       </TouchableOpacity>
       <TouchableOpacity
