@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Alert, View, Text, TextInput, TouchableOpacity } from 'react-native';
-import { sendResetPasswordEmail } from '../../../api/auth0';
+// import { sendResetPasswordEmail } from '../../../api/auth0';
 
 import SVGImg from '../../../assets/forgotPassword.svg';
 
@@ -27,7 +27,7 @@ const ForgetPassword = ({ navigation }) => {
         placeholder="Email"
         autoCapitalize="none"
       />
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={sharedStyling.primaryButton}
         onPress={() => {
           console.log(email);
@@ -42,7 +42,7 @@ const ForgetPassword = ({ navigation }) => {
             .catch(error => console.log('ERRORRR: ', error));
         }}>
         <Text style={sharedStyling.primaryButtonText}>Send me an email</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
