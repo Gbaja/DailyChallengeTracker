@@ -1,5 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { spacing } from '../../../stylingVariables';
+import {
+  bigSpacing,
+  primaryColor,
+  spacing,
+  textSize,
+} from '../../../stylingVariables';
 
 const styles = StyleSheet.create({
   container: {
@@ -11,6 +16,12 @@ const styles = StyleSheet.create({
     shadowOffset: {
       height: 25,
     },
+  },
+  forgotPassword: {
+    color: primaryColor,
+    textAlign: 'center',
+    marginVertical: bigSpacing,
+    fontSize: textSize,
   },
 });
 

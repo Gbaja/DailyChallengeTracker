@@ -1,5 +1,4 @@
 import Auth0 from 'react-native-auth0';
-import * as RootNavigation from '../helpers/RootNavigation';
 import { AUTH0_CLIENT_ID, AUTH0_DOMAIN } from '@env';
 
 const auth0 = new Auth0({
@@ -15,11 +14,9 @@ export const handleLogin = () =>
     .then(user => {
       console.log('USER: ', user);
       return user;
-    })
-    .catch(error => console.log('error: ', error));
+    });
 
-export const handleLogout = () =>
-  auth0.webAuth.clearSession({}).catch(error => console.log('error: ', error));
+export const handleLogout = () => auth0.webAuth.clearSession({});
 
 export const handleSignup = ({
   email,
@@ -27,8 +24,9 @@ export const handleSignup = ({
   password,
   firstName,
   lastName,
-}) =>
-  auth0.auth
+}) => {
+  console.log('HELLO... ', email, username, password, firstName, lastName);
+  return auth0.auth
     .createUser({
       email,
       username,
@@ -40,3 +38,12 @@ export const handleSignup = ({
     })
     .then(user => console.log('USER: ', user))
     .catch(error => console.log('error: ', error));
+};
+
+export const sendResetPasswordEmail = email => {
+  console.log('outhere: ', email);
+  return auth0.auth.resetPassword({
+    connection: 'Username-Password-Authentication',
+    email,
+  });
+};

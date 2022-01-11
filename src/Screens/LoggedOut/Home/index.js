@@ -14,7 +14,9 @@ const Home = ({ navigation }) => {
       <View style={{ ...sharedStyling.svgWrapper, ...styles.homeSVGWrapper }}>
         <SVGImg width={300} height={300} />
       </View>
-      <Text style={sharedStyling.title}>Daily challenge tracker</Text>
+      <Text style={sharedStyling.title} testID="title">
+        Daily challenge tracker
+      </Text>
       <Text style={sharedStyling.subtitle}>
         Set yourself a challenge to do an activity once a day. Track and log
         your progress using this app.
@@ -28,6 +30,9 @@ const Home = ({ navigation }) => {
         style={sharedStyling.secondaryButton}
         onPress={() => navigation.navigate('Sign up')}>
         <Text style={sharedStyling.secondaryButtonText}>Create Account</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Forget Password')}>
+        <Text style={styles.forgotPassword}>Forgot Password?</Text>
       </TouchableOpacity>
     </View>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import {
   Alert,
@@ -11,6 +11,7 @@ import {
 
 import sharedStyling from '../SharedStyling';
 import { handleSignup } from '../../../api/auth0';
+import AuthContext from '../../../helpers/AuthContext';
 
 const Signup = ({ navigation }) => {
   const [username, onChangeUsername] = useState('');
@@ -19,18 +20,24 @@ const Signup = ({ navigation }) => {
   const [email, onChangeEmail] = useState('');
   const [password, onChangePassword] = useState('');
 
+  const { signIn } = useContext(AuthContext);
+
   const handleSubmit = () => {
     if (!email || !password || !firstName || !lastName || !username) {
       Alert.alert('Please make sure all fields have been completed.');
     } else {
       handleSignup({
         email,
+        username,
         password,
         firstName,
         lastName,
-        username,
       }).then(() =>
-        Alert.alert('Please check your email to verify your account.'),
+        Alert.alert(
+          'Finish registration...',
+          'Please check your email to verify your account.',
+          [{ text: 'OK', onPress: () => navigation.navigate('Home') }],
+        ),
       );
     }
   };
@@ -87,7 +94,7 @@ const Signup = ({ navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={sharedStyling.secondaryButton}
-          onPress={() => navigation.navigate('Signup: Log in')}>
+          onPress={signIn}>
           <Text style={sharedStyling.secondaryButtonText}>Login</Text>
         </TouchableOpacity>
       </View>

@@ -1,5 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { primaryColor, textSize, spacing } from '../../stylingVariables';
+import {
+  primaryColor,
+  textSize,
+  spacing,
+  bigSpacing,
+} from '../../stylingVariables';
 
 const sharedStyling = StyleSheet.create({
   container: {
@@ -30,7 +35,7 @@ const sharedStyling = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: `${primaryColor}`,
     padding: 10,
-    marginTop: 30,
+    marginTop: bigSpacing,
     shadowColor: '#000',
     shadowOffset: {
       height: 4,
@@ -45,7 +50,7 @@ const sharedStyling = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     padding: 10,
-    marginTop: 30,
+    marginTop: bigSpacing,
     shadowColor: '#000',
     shadowOffset: {
       height: 2,

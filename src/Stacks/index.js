@@ -30,19 +30,30 @@ const Tabs = () => {
   }
 
   const signIn = async () => {
-    setLoading(true);
-    const user = await handleLogin();
-    await AsyncStorage.setItem('@AuthToken', JSON.stringify(user.accessToken));
-    setAccessToken(user.accessToken);
-    setLoading(false);
+    try {
+      setLoading(true);
+      const user = await handleLogin();
+      await AsyncStorage.setItem(
+        '@AuthToken',
+        JSON.stringify(user.accessToken),
+      );
+      setAccessToken(user.accessToken);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
   };
 
   const signOut = async () => {
-    setLoading(true);
-    await handleLogout();
-    await AsyncStorage.removeItem('@AuthToken');
-    setAccessToken(null);
-    setLoading(false);
+    try {
+      setLoading(true);
+      await handleLogout();
+      await AsyncStorage.removeItem('@AuthToken');
+      setAccessToken(null);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
   };
 
   if (loading) {
