@@ -21,5 +21,26 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
+      <activity
+        Android:name=".MainActivity"
+        Android:label="@string/app_name"
+        Android:launchMode="singleTask"
+        Android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+        Android:windowSoftInputMode="adjustResize">
+        <intent-filter>
+          <action Android:name="Android.intent.action.MAIN" />
+          <category Android:name="Android.intent.category.LAUNCHER" />
+        </intent-filter>
+        <intent-filter>
+          <action Android:name="Android.intent.action.VIEW" />
+          <category Android:name="Android.intent.category.DEFAULT" />
+          <category Android:name="Android.intent.category.BROWSABLE" />
+          <data
+            Android:host="fatimat.eu.auth0.com"
+            Android:pathPrefix="/Android/${applicationId}/callback"
+            Android:scheme="${applicationId}"
+          />
+        </intent-filter>
+      </activity>
     </application>
 </manifest>

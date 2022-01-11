@@ -1,0 +1,1 @@
+If you get `PhaseScriptExecution error` run `nvm unalias default` reference https://msirius.medium.com/the-resurrection-of-a-year-old-react-native-app-2347de873c0f
