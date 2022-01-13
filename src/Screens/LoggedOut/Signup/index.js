@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-
 import {
   Alert,
   View,
@@ -21,6 +20,9 @@ const Signup = ({ navigation }) => {
   const [password, onChangePassword] = useState('');
 
   const { signIn } = useContext(AuthContext);
+
+  const signUpButtonDisabled =
+    !email || !password || !firstName || !lastName || !username;
 
   const handleSubmit = () => {
     if (!email || !password || !firstName || !lastName || !username) {
@@ -45,7 +47,7 @@ const Signup = ({ navigation }) => {
   return (
     <ScrollView>
       <View style={sharedStyling.container}>
-        <Text style={sharedStyling.title}>
+        <Text style={sharedStyling.title} testID="title">
           Get started on tracking your challenges
         </Text>
         <Text style={sharedStyling.subtitle}>
@@ -56,18 +58,21 @@ const Signup = ({ navigation }) => {
           onChangeText={onChangeUsername}
           value={username}
           placeholder="User name"
+          testID="username"
         />
         <TextInput
           style={sharedStyling.input}
           onChangeText={onChangeFirstName}
           value={firstName}
           placeholder="First name"
+          testID="firstName"
         />
         <TextInput
           style={sharedStyling.input}
           onChangeText={onChangeLastName}
           value={lastName}
           placeholder="Last name"
+          testID="lastName"
         />
         <TextInput
           style={sharedStyling.input}
@@ -75,13 +80,17 @@ const Signup = ({ navigation }) => {
           value={email}
           placeholder="Email"
           autoCapitalize="none"
+          testID="email"
         />
+        {/* TODO: Add confirm password field */}
+        {/* TODO: Add show/hide password functionality */}
         <TextInput
           style={sharedStyling.input}
           onChangeText={onChangePassword}
           value={password}
           placeholder="Password"
           secureTextEntry={true}
+          testID="password"
         />
         <Text style={sharedStyling.text}>
           By signing up, you agree for us store your email so you can use to
@@ -89,9 +98,12 @@ const Signup = ({ navigation }) => {
         </Text>
         <TouchableOpacity
           style={sharedStyling.primaryButton}
-          onPress={handleSubmit}>
+          onPress={handleSubmit}
+          disabled={signUpButtonDisabled}
+          testID="signupButton">
           <Text style={sharedStyling.primaryButtonText}>Get started</Text>
         </TouchableOpacity>
+        {/* TODO: Build a login form page in-app */}
         <TouchableOpacity
           style={sharedStyling.secondaryButton}
           onPress={signIn}>

@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
 import { Alert, View, Text, TextInput, TouchableOpacity } from 'react-native';
-// import { sendResetPasswordEmail } from '../../../api/auth0';
 
+import { sendResetPasswordEmail } from '../../../api/auth0';
 import SVGImg from '../../../assets/forgotPassword.svg';
-
 import sharedStyling from '../SharedStyling';
 
 const ForgetPassword = ({ navigation }) => {
   const [email, onChangeEmail] = useState('');
+
+  const handleResetEmail = () =>
+    sendResetPasswordEmail(email)
+      .then(() => {
+        Alert.alert(
+          'Reset password email sent',
+          'Please check your email for link to reset your password.',
+          [{ text: 'OK', onPress: () => navigation.navigate('Home') }],
+        );
+      })
+      .catch(error => console.log('ERRORRR: ', error));
 
   return (
     <View style={sharedStyling.container}>
@@ -26,23 +36,14 @@ const ForgetPassword = ({ navigation }) => {
         value={email}
         placeholder="Email"
         autoCapitalize="none"
+        testID="email"
       />
-      {/* <TouchableOpacity
+      <TouchableOpacity
         style={sharedStyling.primaryButton}
-        onPress={() => {
-          console.log(email);
-          return sendResetPasswordEmail(email)
-            .then(() => {
-              Alert.alert(
-                'Reset password email sent',
-                'Please check your email for link to reset your password.',
-                [{ text: 'OK', onPress: () => navigation.navigate('Home') }],
-              );
-            })
-            .catch(error => console.log('ERRORRR: ', error));
-        }}>
+        onPress={handleResetEmail}
+        testID="button">
         <Text style={sharedStyling.primaryButtonText}>Send me an email</Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
     </View>
   );
 };
