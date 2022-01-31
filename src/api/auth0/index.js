@@ -24,9 +24,8 @@ export const handleSignup = ({
   password,
   firstName,
   lastName,
-}) => {
-  console.log('HELLO... ', email, username, password, firstName, lastName);
-  return auth0.auth
+}) =>
+  auth0.auth
     .createUser({
       email,
       username,
@@ -38,12 +37,9 @@ export const handleSignup = ({
     })
     .then(user => console.log('USER: ', user))
     .catch(error => console.log('error: ', error));
-};
 
-export const sendResetPasswordEmail = email => {
-  console.log('outhere: ', email);
-  return auth0.auth.resetPassword({
+export const sendResetPasswordEmail = email =>
+  auth0.auth.resetPassword({
     connection: 'Username-Password-Authentication',
     email,
   });
-};

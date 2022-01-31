@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import SVGImg from '../../../assets/toDo.svg';
+import SVGImg from '../../../assets/TODO.svg';
 import styles from './Styling';
 import sharedStyling from '../SharedStyling';
 import AuthContext from '../../../helpers/AuthContext';
@@ -23,15 +23,19 @@ const Home = ({ navigation }) => {
       </Text>
       <TouchableOpacity
         style={sharedStyling.primaryButton}
-        onPress={() => signIn()}>
+        onPress={() => signIn()}
+        testID="loginButton">
         <Text style={sharedStyling.primaryButtonText}>Login</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={sharedStyling.secondaryButton}
-        onPress={() => navigation.navigate('Sign up')}>
+        onPress={() => navigation.navigate('Sign up')}
+        testID="signupButton">
         <Text style={sharedStyling.secondaryButtonText}>Create Account</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Forget Password')}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Forget Password')}
+        testID="forgetPasswordButton">
         <Text style={styles.forgotPassword}>Forgot Password?</Text>
       </TouchableOpacity>
     </View>
