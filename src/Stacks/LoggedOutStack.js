@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import LoggedOutHome from '../Screens/LoggedOut/Home';
 import Signup from '../Screens/LoggedOut/Signup';
-import ForgetPassword from '../Screens/LoggedOut/ForgetPassword/ForgetPassword';
+import ForgetPassword from '../Screens/LoggedOut/ForgetPassword';
 
 const LoggedOutStack = createNativeStackNavigator();
 

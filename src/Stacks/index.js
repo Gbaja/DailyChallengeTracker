@@ -9,7 +9,7 @@ import { Loading } from '../Screens/Shared/Loading';
 import { handleLogin, handleLogout } from '../api/auth0';
 
 const Tabs = () => {
-  const [accessToken, setAccessToken] = useState(null);
+  const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -20,8 +20,8 @@ const Tabs = () => {
     try {
       const authDataSerialized = await AsyncStorage.getItem('@AuthToken');
       if (authDataSerialized) {
-        const userAccessToken = JSON.parse(authDataSerialized);
-        setAccessToken(userAccessToken);
+        const usertoken = JSON.parse(authDataSerialized);
+        setToken(usertoken);
       }
     } catch (error) {
     } finally {
@@ -33,11 +33,8 @@ const Tabs = () => {
     try {
       setLoading(true);
       const user = await handleLogin();
-      await AsyncStorage.setItem(
-        '@AuthToken',
-        JSON.stringify(user.accessToken),
-      );
-      setAccessToken(user.accessToken);
+      await AsyncStorage.setItem('@AuthToken', JSON.stringify(user.idToken));
+      setToken(user.token);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -49,7 +46,7 @@ const Tabs = () => {
       setLoading(true);
       await handleLogout();
       await AsyncStorage.removeItem('@AuthToken');
-      setAccessToken(null);
+      setToken(null);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -62,7 +59,7 @@ const Tabs = () => {
 
   return (
     <AuthContext.Provider value={{ signIn, signOut }}>
-      {accessToken ? <LoggedInStackScreen /> : <LoggedOutStackScreen />}
+      {token ? <LoggedInStackScreen /> : <LoggedOutStackScreen />}
     </AuthContext.Provider>
   );
 };
