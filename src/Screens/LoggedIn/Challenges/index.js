@@ -8,22 +8,10 @@ const Profile = ({ navigation }) => {
   return (
     <ScrollView>
       <View>
-        <Text>PROFILE</Text>
-        <Text>PROFILE</Text>
-        <Text>PROFILE</Text>
-        <Text>PROFILE</Text>
-        <Text>PROFILE</Text>
-        <Text>PROFILE</Text>
-        <Text>PROFILE</Text>
-        <Text>PROFILE</Text>
-        <Text>PROFILE</Text>
-        <Text>PROFILE</Text>
-        <Text>PROFILE</Text>
-        <Text>PROFILE</Text>
-        <Text>PROFILE</Text>
-        <Text>PROFILE</Text>
-        <Text>PROFILE</Text>
-        <Text>PROFILE</Text>
+        <Text>Challenges</Text>
+        <Text>Challenges</Text>
+        <Text>Challenges</Text>
+        <Text>Challenges</Text>
         <TouchableOpacity onPress={() => signOut()}>
           <Text>Log out</Text>
         </TouchableOpacity>
