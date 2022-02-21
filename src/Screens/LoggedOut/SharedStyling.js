@@ -9,7 +9,7 @@ import {
 const sharedStyling = StyleSheet.create({
   container: {
     marginHorizontal: spacing,
-    marginVertical: 30,
+    marginVertical: bigSpacing,
   },
   title: {
     fontWeight: 'bold',
