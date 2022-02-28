@@ -23,7 +23,7 @@ const Profile = ({ navigation }) => {
         <View style={styling.buttonWrapper}>
           <TouchableOpacity
             style={styling.button}
-            onPress={() => console.log('HELLO')}>
+            onPress={() => navigation.navigate('Add Challenge')}>
             <Text style={styling.buttonText}>+</Text>
           </TouchableOpacity>
         </View>
