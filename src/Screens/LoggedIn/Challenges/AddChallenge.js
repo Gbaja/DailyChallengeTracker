@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
 import {
   Alert,
@@ -7,6 +8,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+import { createChallenge } from '../../../api/dailyChallengeTracker';
 
 import sharedStyling from '../../LoggedOut/SharedStyling';
 
@@ -19,11 +21,18 @@ const AddChallenge = ({ navigation }) => {
 
   const buttonDisabled = !description || !days || !title;
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!description || !days || !title) {
       Alert.alert('Please make sure all fields have been completed.');
     } else {
-      console.log('HELLO: ', title, description, days);
+      const token = await AsyncStorage.getItem('@AuthToken');
+      await createChallenge(JSON.parse(token), {
+        title,
+        description,
+        days,
+        startDate,
+        userEmail: 'gbajaf@yahoo.uk',
+      });
     }
   };
 

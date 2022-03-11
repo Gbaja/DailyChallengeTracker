@@ -33,8 +33,8 @@ const Tabs = () => {
     try {
       setLoading(true);
       const user = await handleLogin();
-      await AsyncStorage.setItem('@AuthToken', JSON.stringify(user.idToken));
-      setToken(user.token);
+      await AsyncStorage.setItem('@AuthToken', user.accessToken);
+      setToken(user.accessToken);
       setLoading(false);
     } catch (error) {
       setLoading(false);

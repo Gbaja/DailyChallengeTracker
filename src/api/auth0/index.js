@@ -9,7 +9,7 @@ const auth0 = new Auth0({
 export const handleLogin = () =>
   auth0.webAuth
     .authorize({
-      scope: 'openid email',
+      scope: 'openid profile email',
     })
     .then(user => {
       console.log('USER: ', user);
