@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
+import DateTimePicker from '@react-native-community/datetimepicker';
+
 import {
   Alert,
   View,
@@ -9,15 +11,13 @@ import {
   ScrollView,
 } from 'react-native';
 import { createChallenge } from '../../../api/dailyChallengeTracker';
-
 import sharedStyling from '../../LoggedOut/SharedStyling';
 
 const AddChallenge = ({ navigation }) => {
   const [title, onChangeTitle] = useState('');
   const [description, onChangeDescription] = useState('');
   const [days, onChangeDays] = useState('');
-  // TODO: Set default start date as today
-  const [startDate, onChangeStartDate] = useState('');
+  const [startDate, setStartDate] = useState(new Date());
 
   const buttonDisabled = !description || !days || !title;
 
@@ -69,13 +69,19 @@ const AddChallenge = ({ navigation }) => {
           testID="days"
           keyboardType="numeric"
         />
-        <TextInput
-          style={sharedStyling.input}
-          onChangeText={onChangeStartDate}
-          value={startDate}
-          placeholder="Start date"
-          testID="startDate"
-        />
+        <View style={{ flexDirection: 'row'}}>
+          <Text style={{...sharedStyling.text, marginRight: 30}}>Select start date:</Text>
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={startDate}
+            mode="date"
+            // TODO: time is been set to one hour below actual time (fix)
+            onChange={(event, selectedDate) => setStartDate(new Date(selectedDate))}
+            minimumDate={new Date()}
+            // TODO: extract styling to its own file
+            style={{ width: '100%' }}
+          />
+        </View>
         <TouchableOpacity
           style={sharedStyling.primaryButton}
           onPress={handleSubmit}
