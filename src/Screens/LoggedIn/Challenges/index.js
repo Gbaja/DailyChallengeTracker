@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { StyleSheet } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { getUserinfo } from '../../../api/auth0';
 
@@ -12,15 +11,6 @@ import sharedStyling from '../../LoggedOut/SharedStyling';
 
 const Profile = ({ navigation }) => {
   const { signOut } = useContext(AuthContext);
-  useEffect(() => {
-    async function fetchMyAPI() {
-      const token = await AsyncStorage.getItem('@AuthToken');
-      const userInfo = await getUserinfo(JSON.parse(token));
-      console.log('USER INFOOOOO: ', userInfo);
-    }
-
-    fetchMyAPI();
-  }, []);
 
   return (
     <ScrollView>

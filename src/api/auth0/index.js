@@ -11,10 +11,8 @@ export const handleLogin = () =>
     .authorize({
       scope: 'openid profile email',
     })
-    .then(user => {
-      console.log('USER: ', user);
-      return user;
-    });
+    .then(user => user)
+    .catch(error => console.log("LOGIN ERROR: ", error))
 
 export const handleLogout = () => auth0.webAuth.clearSession({});
 
@@ -43,3 +41,9 @@ export const sendResetPasswordEmail = email =>
     connection: 'Username-Password-Authentication',
     email,
   });
+
+export const getUserInfo = async accessToken =>
+  auth0.auth
+    .userInfo({ token: accessToken })
+    .then(user => user)
+    .catch(error => console.log('Error in get user info: ', error));

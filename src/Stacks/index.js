@@ -6,7 +6,7 @@ import LoggedInStackScreen from '../Stacks/LoggedInStack';
 import AuthContext from '../helpers/AuthContext';
 
 import { Loading } from '../Screens/Shared/Loading';
-import { handleLogin, handleLogout } from '../api/auth0';
+import { handleLogin, handleLogout, getUserInfo } from '../api/auth0';
 
 const Tabs = () => {
   const [token, setToken] = useState(null);
@@ -18,7 +18,7 @@ const Tabs = () => {
 
   async function loadStorageData(): Promise<void> {
     try {
-      const authDataSerialized = await AsyncStorage.getItem('@AuthToken');
+      const authDataSerialized = await AsyncStorage.getItem('@AuthIdToken');
       if (authDataSerialized) {
         const usertoken = JSON.parse(authDataSerialized);
         setToken(usertoken);
@@ -33,8 +33,10 @@ const Tabs = () => {
     try {
       setLoading(true);
       const user = await handleLogin();
-      await AsyncStorage.setItem('@AuthToken', user.accessToken);
-      setToken(user.accessToken);
+      await AsyncStorage.setItem('@AuthIdToken', user.idToken);
+      const userInfo = await getUserInfo(user.accessToken);
+      await AsyncStorage.setItem('@UserInfo', JSON.stringify(userInfo));
+      setToken(user.idToken);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -45,7 +47,8 @@ const Tabs = () => {
     try {
       setLoading(true);
       await handleLogout();
-      await AsyncStorage.removeItem('@AuthToken');
+      await AsyncStorage.removeItem('@AuthIdToken');
+      await AsyncStorage.removeItem('@UserInfo');
       setToken(null);
       setLoading(false);
     } catch (error) {

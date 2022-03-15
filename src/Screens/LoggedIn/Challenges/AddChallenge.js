@@ -25,13 +25,15 @@ const AddChallenge = ({ navigation }) => {
     if (!description || !days || !title) {
       Alert.alert('Please make sure all fields have been completed.');
     } else {
-      const token = await AsyncStorage.getItem('@AuthToken');
-      await createChallenge(JSON.parse(token), {
+      const token = await AsyncStorage.getItem('@AuthIdToken');
+      const userInfo = await AsyncStorage.getItem('@UserInfo');
+      await createChallenge(token, {
         title,
         description,
         days,
         startDate,
-        userEmail: 'gbajaf@yahoo.uk',
+        userEmail: JSON.parse(userInfo).email,
+        status: 'upcoming',
       });
     }
   };
