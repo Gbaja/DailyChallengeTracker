@@ -1,79 +1,67 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import { StyleSheet } from 'react-native';
 
-import { getUserinfo } from '../../../api/auth0';
-
-import SVGImg from '../../../assets/noData.svg';
+import { getChallenges } from '../../../api/dailyChallengeTracker';
 import AuthContext from '../../../helpers/AuthContext';
-import { bigSpacing, primaryColor, spacing } from '../../../stylingVariables';
-import sharedStyling from '../../LoggedOut/SharedStyling';
+import Nochallenge from './NoChallenges';
+import styles from './Styling';
 
-const Profile = ({ navigation }) => {
+const Challenges = ({ navigation }) => {
   const { signOut } = useContext(AuthContext);
+  const [upcomingChallenges, setUpcomingChallenges] = useState([]);
+  const [status, setStatus] = useState('ongoing');
+
+  useEffect(() => {
+    getChallenges(status)
+      .then(res => setUpcomingChallenges(res))
+      .catch(error => console.log('ERROR: ', error));
+  }, [status]);
 
   return (
     <ScrollView>
-      <View>
-        <View style={styling.svgWrapper}>
-          <SVGImg width={300} height={300} />
-        </View>
-        <View style={styling.container}>
-          <Text style={sharedStyling.title}>No challenges yet</Text>
-          <Text style={styling.subtitle}>
-            Start a new challenge today by clicking on the button below
+      <View style={styles.tabWrapper}>
+        <TouchableOpacity
+          style={styles.tabButtons(status === 'ongoing')}
+          onPress={() => setStatus('ongoing')}>
+          <Text style={styles.tabButtonText(status === 'ongoing')}>
+            Ongoing
           </Text>
-        </View>
-        <View style={styling.buttonWrapper}>
-          <TouchableOpacity
-            style={styling.button}
-            onPress={() => navigation.navigate('Add Challenge')}>
-            <Text style={styling.buttonText}>+</Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity onPress={() => signOut()}>
-          <Text>Log out</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.tabButtons(status === 'upcoming')}
+          onPress={() => setStatus('upcoming')}>
+          <Text style={styles.tabButtonText(status === 'upcoming')}>
+            Upcoming
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.tabButtons(status === 'completed')}
+          onPress={() => setStatus('completed')}>
+          <Text style={styles.tabButtonText(status === 'completed')}>
+            Completed
+          </Text>
         </TouchableOpacity>
       </View>
+      {upcomingChallenges.length > 0 ? (
+        <>
+          <View>
+            {upcomingChallenges.map(({ title, description }) => (
+              <View key={title}>
+                <Text>{title}</Text>
+                <Text>{description}</Text>
+              </View>
+            ))}
+          </View>
+          <TouchableOpacity onPress={() => signOut()}>
+            <Text>Log out</Text>
+          </TouchableOpacity>
+        </>
+      ) : (
+        // TODO: Learn more about navigation and see if there is a way to navigate without passing as prop here
+        <Nochallenge navigation={navigation} status={status} />
+      )}
     </ScrollView>
   );
 };
 
-const styling = StyleSheet.create({
-  svgWrapper: {
-    shadowColor: '#000',
-    shadowOffset: {
-      height: 10,
-    },
-    shadowOpacity: 0.3,
-    alignItems: 'center',
-    marginTop: bigSpacing,
-  },
-  container: {
-    alignItems: 'center',
-    marginHorizontal: bigSpacing,
-    marginVertical: bigSpacing,
-  },
-  subtitle: {
-    textAlign: 'center',
-    fontSize: 24,
-    color: 'gray',
-    marginTop: spacing,
-  },
-  buttonWrapper: {
-    alignItems: 'flex-end',
-    marginRight: bigSpacing,
-    marginTop: bigSpacing,
-  },
-  button: {
-    backgroundColor: primaryColor,
-    padding: 10,
-    borderRadius: 10,
-  },
-  buttonText: {
-    fontSize: 60,
-    color: 'white',
-  },
-});
-
-export default Profile;
+export default Challenges;

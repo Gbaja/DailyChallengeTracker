@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { createChallenge } from '../../../api/dailyChallengeTracker';
 import sharedStyling from '../../LoggedOut/SharedStyling';
+import styles from './Styling';
 
 const AddChallenge = ({ navigation }) => {
   const [title, onChangeTitle] = useState('');
@@ -69,17 +70,19 @@ const AddChallenge = ({ navigation }) => {
           testID="days"
           keyboardType="numeric"
         />
-        <View style={{ flexDirection: 'row'}}>
-          <Text style={{...sharedStyling.text, marginRight: 30}}>Select start date:</Text>
+        <View style={styles.formStartDateWrapper}>
+          <Text style={styles.formSelectStartDateText}>Select start date:</Text>
           <DateTimePicker
             testID="dateTimePicker"
             value={startDate}
             mode="date"
             // TODO: time is been set to one hour below actual time (fix)
-            onChange={(event, selectedDate) => setStartDate(new Date(selectedDate))}
+            onChange={(event, selectedDate) =>
+              setStartDate(new Date(selectedDate))
+            }
             minimumDate={new Date()}
             // TODO: extract styling to its own file
-            style={{ width: '100%' }}
+            style={styles.datePickerStyling}
           />
         </View>
         <TouchableOpacity
