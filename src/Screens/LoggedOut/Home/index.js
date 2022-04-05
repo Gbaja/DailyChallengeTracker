@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import SVGImg from '../../../assets/TODO.svg';
+import SVGImg from '../../../assets/toDo.svg';
 import styles from './Styling';
 import sharedStyling from '../SharedStyling';
 import AuthContext from '../../../helpers/AuthContext';
