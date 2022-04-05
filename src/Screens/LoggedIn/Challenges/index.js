@@ -3,17 +3,19 @@ import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 
 import { getChallenges } from '../../../api/dailyChallengeTracker';
 import AuthContext from '../../../helpers/AuthContext';
+import AddChallengeButton from './AddChallengeButton';
 import Nochallenge from './NoChallenges';
 import styles from './Styling';
 
 const Challenges = ({ navigation }) => {
   const { signOut } = useContext(AuthContext);
-  const [upcomingChallenges, setUpcomingChallenges] = useState([]);
+  const [challenges, setChallenges] = useState([]);
   const [status, setStatus] = useState('ongoing');
 
   useEffect(() => {
+    //TO DO: Filter by ongoing is not being set: need to query by date
     getChallenges(status)
-      .then(res => setUpcomingChallenges(res))
+      .then(res => setChallenges(res))
       .catch(error => console.log('ERROR: ', error));
   }, [status]);
 
@@ -42,19 +44,24 @@ const Challenges = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-      {upcomingChallenges.length > 0 ? (
+      {challenges && challenges.length > 0 ? (
         <>
-          <View>
-            {upcomingChallenges.map(({ title, description }) => (
-              <View key={title}>
-                <Text>{title}</Text>
-                <Text>{description}</Text>
-              </View>
-            ))}
-          </View>
+          {challenges.map(({ title, description, startDate }, index) => (
+            <View key={title} style={styles.challengeWrapper}>
+              <Text style={styles.challengeTitle}>{title}</Text>
+              <Text style={styles.challengeDescription}>{description}</Text>
+              <Text style={styles.challengeStartDate}>
+                Start date: {new Date(startDate).toDateString()}
+              </Text>
+              {challenges.length !== index + 1 && (
+                <View style={styles.challengeDividerLine} />
+              )}
+            </View>
+          ))}
           <TouchableOpacity onPress={() => signOut()}>
             <Text>Log out</Text>
           </TouchableOpacity>
+          <AddChallengeButton navigation={navigation} />
         </>
       ) : (
         // TODO: Learn more about navigation and see if there is a way to navigate without passing as prop here

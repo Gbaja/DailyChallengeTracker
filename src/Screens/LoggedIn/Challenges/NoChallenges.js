@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 
 import SVGImg from '../../../assets/noData.svg';
 import sharedStyling from '../../LoggedOut/SharedStyling';
+import AddChallengeButton from './AddChallengeButton';
 import styles from './Styling';
 
 const Nochallenge = ({ navigation, status }) => (
@@ -17,13 +18,7 @@ const Nochallenge = ({ navigation, status }) => (
       </Text>
     </View>
     {(status === 'ongoing' || status === 'upcoming') && (
-      <View style={styles.addButtonWrapper}>
-        <TouchableOpacity
-          style={styles.addButton}
-          onPress={() => navigation.navigate('Add Challenge')}>
-          <Text style={styles.addButtonText}>+</Text>
-        </TouchableOpacity>
-      </View>
+      <AddChallengeButton navigation={navigation} />
     )}
   </View>
 );

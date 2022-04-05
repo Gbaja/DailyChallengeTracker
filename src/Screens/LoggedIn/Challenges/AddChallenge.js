@@ -36,6 +36,7 @@ const AddChallenge = ({ navigation }) => {
         userEmail: JSON.parse(userInfo).email,
         status: 'upcoming',
       });
+      navigation.navigate('Challenges');
     }
   };
 
@@ -56,12 +57,14 @@ const AddChallenge = ({ navigation }) => {
           testID="title"
         />
         <TextInput
-          style={sharedStyling.input}
+          style={styles.descriptionTextInput}
           onChangeText={onChangeDescription}
           value={description}
+          multiline={true}
           placeholder="Description"
           testID="description"
         />
+        {/* TODO: only number for this input */}
         <TextInput
           style={sharedStyling.input}
           onChangeText={onChangeDays}
@@ -76,12 +79,13 @@ const AddChallenge = ({ navigation }) => {
             testID="dateTimePicker"
             value={startDate}
             mode="date"
-            // TODO: time is been set to one hour below actual time (fix)
             onChange={(event, selectedDate) =>
-              setStartDate(new Date(selectedDate))
+              setStartDate(
+                new Date(new Date(selectedDate).setHours(0, 0, 0, 0)),
+              )
             }
-            minimumDate={new Date()}
-            // TODO: extract styling to its own file
+            // TODO: default time is not set to midnight
+            minimumDate={new Date(new Date().setHours(24, 0, 0, 0))}
             style={styles.datePickerStyling}
           />
         </View>

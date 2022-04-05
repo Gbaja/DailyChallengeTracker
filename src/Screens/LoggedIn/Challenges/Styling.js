@@ -4,6 +4,7 @@ import {
   black,
   primaryColor,
   spacing,
+  textSize,
   white,
 } from '../../../stylingVariables';
 import sharedStyling from '../../LoggedOut/SharedStyling';
@@ -45,6 +46,10 @@ const styles = StyleSheet.create({
     color: 'gray',
     marginTop: spacing,
   },
+  descriptionTextInput: {
+    ...sharedStyling.input,
+    height: 150,
+  },
   addButtonWrapper: {
     alignItems: 'flex-end',
     marginRight: bigSpacing,
@@ -67,6 +72,27 @@ const styles = StyleSheet.create({
   },
   datePickerStyling: {
     width: '100%',
+  },
+  challengeWrapper: {
+    marginHorizontal: bigSpacing,
+    marginVertical: spacing,
+  },
+  challengeTitle: {
+    fontSize: textSize + 10,
+    marginBottom: spacing,
+  },
+  challengeDescription: {
+    fontSize: textSize,
+    marginBottom: spacing,
+  },
+  challengeStartDate: {
+    fontSize: textSize - 5,
+    marginBottom: spacing,
+  },
+  challengeDividerLine: {
+    borderBottomColor: primaryColor,
+    borderBottomWidth: 0.2,
+    marginTop: spacing,
   },
 });
 
