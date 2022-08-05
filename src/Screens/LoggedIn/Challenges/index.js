@@ -3,6 +3,10 @@ import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 
 import { getChallenges } from '../../../api/dailyChallengeTracker';
 import AuthContext from '../../../helpers/AuthContext';
+import {
+  calculateNumOfDaysPast,
+  checkIfDateInPast,
+} from '../../../helpers/dateHelpers';
 import AddChallengeButton from './AddChallengeButton';
 import Nochallenge from './NoChallenges';
 import styles from './Styling';
@@ -13,7 +17,7 @@ const Challenges = ({ navigation }) => {
   const [status, setStatus] = useState('ongoing');
 
   useEffect(() => {
-    //TO DO: Filter by ongoing is not being set: need to query by date
+    //TO DO: Filter by ongoing is not being set
     getChallenges(status)
       .then(res => setChallenges(res))
       .catch(error => console.log('ERROR: ', error));
@@ -46,18 +50,33 @@ const Challenges = ({ navigation }) => {
       </View>
       {challenges && challenges.length > 0 ? (
         <>
-          {challenges.map(({ title, description, startDate }, index) => (
-            <View key={title} style={styles.challengeWrapper}>
-              <Text style={styles.challengeTitle}>{title}</Text>
-              <Text style={styles.challengeDescription}>{description}</Text>
-              <Text style={styles.challengeStartDate}>
-                Start date: {new Date(startDate).toDateString()}
-              </Text>
-              {challenges.length !== index + 1 && (
-                <View style={styles.challengeDividerLine} />
-              )}
-            </View>
-          ))}
+          {challenges.map(({ title, description, startDate }, index) => {
+            const isDateInThePast = checkIfDateInPast(startDate);
+
+            return (
+              <View key={title} style={styles.challengeWrapper}>
+                <Text style={styles.challengeTitle}>{title}</Text>
+                <Text style={styles.challengeDescription}>{description}</Text>
+                <Text style={styles.challengeStartDate}>
+                  Start date: {new Date(startDate).toDateString()}
+                </Text>
+                {isDateInThePast && (
+                  <Text>
+                    You are {calculateNumOfDaysPast(startDate)} days behind. Log
+                    a summary to get you started
+                  </Text>
+                )}
+                <View style={styles.addButtonWrapper}>
+                  <TouchableOpacity style={styles.addButton}>
+                    <Text style={styles.deleteButtonText}>Delete</Text>
+                  </TouchableOpacity>
+                </View>
+                {challenges.length !== index + 1 && (
+                  <View style={styles.challengeDividerLine} />
+                )}
+              </View>
+            );
+          })}
           <TouchableOpacity onPress={() => signOut()}>
             <Text>Log out</Text>
           </TouchableOpacity>

@@ -94,6 +94,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.2,
     marginTop: spacing,
   },
+  deleteButtonText: {
+    color: white,
+  },
 });
 
 export default styles;

@@ -13,31 +13,37 @@ import {
 import { createChallenge } from '../../../api/dailyChallengeTracker';
 import sharedStyling from '../../LoggedOut/SharedStyling';
 import styles from './Styling';
+import { calculateTomorrowsDate } from '../../../helpers/dateHelpers';
 
 const AddChallenge = ({ navigation }) => {
+  const tomorrowsDate = calculateTomorrowsDate();
+
   const [title, onChangeTitle] = useState('');
   const [description, onChangeDescription] = useState('');
   const [days, onChangeDays] = useState('');
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(tomorrowsDate);
 
   const buttonDisabled = !description || !days || !title;
 
   const handleSubmit = async () => {
     if (!description || !days || !title) {
-      Alert.alert('Please make sure all fields have been completed.');
-    } else {
-      const token = await AsyncStorage.getItem('@AuthIdToken');
-      const userInfo = await AsyncStorage.getItem('@UserInfo');
-      await createChallenge(token, {
-        title,
-        description,
-        days,
-        startDate,
-        userEmail: JSON.parse(userInfo).email,
-        status: 'upcoming',
-      });
-      navigation.navigate('Challenges');
+      return Alert.alert('Please make sure all fields have been completed.');
     }
+    const regex = new RegExp(/^[0-9]+$/);
+    if (!regex.test(days) || days < 0) {
+      return Alert.alert('You can only enter number in the Days field.');
+    }
+    const token = await AsyncStorage.getItem('@AuthIdToken');
+    const userInfo = await AsyncStorage.getItem('@UserInfo');
+    await createChallenge(token, {
+      title,
+      description,
+      days,
+      startDate,
+      userEmail: JSON.parse(userInfo).email,
+      status: 'upcoming',
+    });
+    navigation.navigate('Challenges');
   };
 
   return (
@@ -64,14 +70,13 @@ const AddChallenge = ({ navigation }) => {
           placeholder="Description"
           testID="description"
         />
-        {/* TODO: only number for this input */}
         <TextInput
           style={sharedStyling.input}
           onChangeText={onChangeDays}
           value={days}
           placeholder="Number of days"
           testID="days"
-          keyboardType="numeric"
+          keyboardType="number-pad"
         />
         <View style={styles.formStartDateWrapper}>
           <Text style={styles.formSelectStartDateText}>Select start date:</Text>
@@ -79,13 +84,8 @@ const AddChallenge = ({ navigation }) => {
             testID="dateTimePicker"
             value={startDate}
             mode="date"
-            onChange={(event, selectedDate) =>
-              setStartDate(
-                new Date(new Date(selectedDate).setHours(0, 0, 0, 0)),
-              )
-            }
-            // TODO: default time is not set to midnight
-            minimumDate={new Date(new Date().setHours(24, 0, 0, 0))}
+            onChange={(event, selectedDate) => setStartDate(selectedDate)}
+            minimumDate={tomorrowsDate}
             style={styles.datePickerStyling}
           />
         </View>
